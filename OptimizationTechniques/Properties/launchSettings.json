@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OptimizationTechniques": {
+      "commandName": "Project",
+      "commandLineArgs": "\"\" ALOI"
+    }
+  }
+}
