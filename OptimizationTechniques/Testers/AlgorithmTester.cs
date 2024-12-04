@@ -24,9 +24,11 @@ namespace OptimizationTechniques.Testers
         public Dictionary<string, List<double>> Test(AlgorithmParams algorithmParams, TestParams testParams)
         {
             var result = new Dictionary<string, List<double>>();
-
+            var algorithmName = typeof(T).Name; 
             for (var i = 0; i < testParams.Repeats; i++)
             {
+                Console.WriteLine($"Testing algorithm: {algorithmName}, # of samples: {algorithmParams.SamplesCount}, pass {i + 1} of {testParams.Repeats}");
+                
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
                 var algorithm = new T();
@@ -41,6 +43,7 @@ namespace OptimizationTechniques.Testers
                 MergeMetricsFromRun(result, metrics);
             }
 
+            Console.WriteLine($"Testing algorithm: {algorithmName} - done");
             return result;
         }
     }

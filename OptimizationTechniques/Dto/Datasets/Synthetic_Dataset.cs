@@ -9,6 +9,12 @@ namespace OptimizationTechniques.Dto.Datasets
 {
     public class Synthetic_Dataset : BaseDataset
     {
+
+        public Synthetic_Dataset()
+        {
+            outputFileName = "Synthetic.csv";
+        }
+
         public override string Name => "Synthetic";
 
         public override double OutliersCount => 100000;
@@ -18,7 +24,7 @@ namespace OptimizationTechniques.Dto.Datasets
             var dimension = 100;
             var centersCount = 10;
             var centersStdev = 1;
-            var devsStdev = 1;
+            var devsStdev = centersStdev * 0.1 / Math.Sqrt(dimension);
 
             var centers = new double[centersCount][];
             var result = new double[(int)OutliersCount][];

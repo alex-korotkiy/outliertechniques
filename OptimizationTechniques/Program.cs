@@ -30,6 +30,7 @@ namespace OptimizationTechniques
             RegisterDataset<ForestCover_Dataset>();
             RegisterDataset<Shuttle_Dataset>();
             RegisterDataset<Satellite_Dataset>();
+            RegisterDataset<Synthetic_Dataset>();
         }
 
         static void ProcessDataset(BaseDataset dataset, string outputPath)
