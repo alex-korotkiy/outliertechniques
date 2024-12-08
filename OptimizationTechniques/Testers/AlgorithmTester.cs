@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OptimizationTechniques.Testers
 {
-    public class AlgorithmTester<T> where T: IBaseAlgorithm, new()
+    public class AlgorithmTester<T> : IAlgorithmTester where T: IBaseAlgorithm, new() 
     {
         public void MergeMetricsFromRun(Dictionary<string, List<double>> totalMetrics, Dictionary<string, double> metrics)
         {
@@ -21,30 +21,30 @@ namespace OptimizationTechniques.Testers
             }
         }
 
-        public Dictionary<string, List<double>> Test(AlgorithmParams algorithmParams, TestParams testParams)
+        public Type ParameterType()
         {
-            var result = new Dictionary<string, List<double>>();
+            return typeof(T);
+        }
+
+        public virtual void Test(AlgorithmParams algorithmParams, Dictionary<string, List<double>> metricsResult)
+        {
             var algorithmName = typeof(T).Name; 
-            for (var i = 0; i < testParams.Repeats; i++)
-            {
-                Console.WriteLine($"Testing algorithm: {algorithmName}, # of samples: {algorithmParams.SamplesCount}, pass {i + 1} of {testParams.Repeats}");
+    
+            Console.WriteLine($"Testing algorithm: {algorithmName}, # of samples: {algorithmParams.SamplesCount}");
                 
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
-                var algorithm = new T();
-                algorithm.Init(algorithmParams);
-                algorithm.FitTransform();
-                stopwatch.Stop();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var algorithm = new T();
+            algorithm.Init(algorithmParams);
+            algorithm.FitTransform();
+            stopwatch.Stop();
 
-                var ticks = stopwatch.Elapsed.Ticks;
-                var metrics = algorithm.GetMetrics();
-                metrics[Metrics.RunTime] = ticks * 1.0 / Stopwatch.Frequency;
+            var ticks = stopwatch.Elapsed.Ticks;
+            var metrics = algorithm.GetMetrics();
+            metrics[Metrics.RunTime] = ticks * 1.0 / Stopwatch.Frequency;
 
-                MergeMetricsFromRun(result, metrics);
-            }
+            MergeMetricsFromRun(metricsResult, metrics);
 
-            Console.WriteLine($"Testing algorithm: {algorithmName} - done");
-            return result;
         }
     }
 }

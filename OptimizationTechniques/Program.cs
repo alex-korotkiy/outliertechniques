@@ -44,6 +44,10 @@ namespace OptimizationTechniques
 
             var sampleCounts = new int[] { 10, 15, 20, 30, 50, 70, 100, 150, 200, 300, 500, 700, 1000 };
             var repeats = new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
+
+            //var sampleCounts = new int[] { 10, 15, 20};
+            //var repeats = new int[] { 10, 10, 10 };
+
             var comparer = new AlgorithmsComparer();
 
             var cResult = comparer.CompareForReports(algorithmParams, sampleCounts, repeats);
@@ -51,83 +55,7 @@ namespace OptimizationTechniques
             DataFrame.SaveCsv(cResult, fullOutputFileName);
         }
 
-        static void SimpleComparison()
-        {
-            int length = 10000;
-            int dimension = 100;
-            var x = new double[length][];
-            for (var i = 0; i < length; i++)
-            {
-                x[i] = NormalDistribution.Random(0, 1, dimension);
-            }
-
-            var algorithmParams = new AlgorithmParams { X = x };
-            algorithmParams.SampleIndexes = BaseAlgorithm.GenerateSamples(100, x.Length);
-            var baseAlgorithm = new BaseAlgorithm(algorithmParams);
-
-
-            var baseStopwatch = new Stopwatch();
-            baseStopwatch.Start();
-            var baseIndexes = baseAlgorithm.FitTransform();
-            baseStopwatch.Stop();
-            var baseTime = baseStopwatch.ElapsedTicks * 1.0 / Stopwatch.Frequency;
-
-            Console.WriteLine($"Base time: {baseTime}");
-
-            var dpOptimizedAlgorithm = new DPOptimizedAlgorithm(algorithmParams);
-            var dpStopwatch = new Stopwatch();
-            dpStopwatch.Start();
-            var dpOptimizedIndexes = dpOptimizedAlgorithm.FitTransform();
-            dpStopwatch.Stop();
-            var dpTime = dpStopwatch.ElapsedTicks * 1.0 / Stopwatch.Frequency;
-
-            Console.WriteLine($"DP optimized time: {dpTime}");
-
-            var ticorOptimizedAlgorithm = new TICOROptimizedAlgorithm(algorithmParams);
-            var ticorStopwatch = new Stopwatch();
-            ticorStopwatch.Start();
-            var ticorOptimizedIndexes = ticorOptimizedAlgorithm.FitTransform();
-            ticorStopwatch.Stop();
-            var ticorTime = ticorStopwatch.ElapsedTicks * 1.0 / Stopwatch.Frequency;
-
-            Console.WriteLine($"TICOR optimized time: {ticorTime}");
-
-            var ticordpOptimizedAlgorithm = new TICORDPOptimizedAlgorithm(algorithmParams);
-            var ticordpStopwatch = new Stopwatch();
-            ticordpStopwatch.Start();
-            var ticordpOptimizedIndexes = ticordpOptimizedAlgorithm.FitTransform();
-            ticordpStopwatch.Stop();
-            var ticordpTime = ticordpStopwatch.ElapsedTicks * 1.0 / Stopwatch.Frequency;
-
-            Console.WriteLine($"TICORDP optimized time: {ticordpTime}");
-
-        }
-
-        static void ComparerTest()
-        {
-            int length = 10000;
-            int dimension = 100;
-            var x = new double[length][];
-            for (var i = 0; i < length; i++)
-            {
-                x[i] = NormalDistribution.Random(0, 1, dimension);
-            }
-
-            var algorithmParams = new AlgorithmParams { X = x };
-
-            var testParams = new TestParams() { Repeats = 10 };
-
-            var comparer = new AlgorithmsComparer();
-
-            var samplesCounts = new int[] { 10, 20, 50, 100, 200, 500, 1000 };
-            var repeats = new int[] { 10, 10, 10, 10, 10, 10, 10 };
-
-            var result = comparer.CompareForReports(algorithmParams, samplesCounts, repeats);
-
-            DataFrame.SaveCsv(result, "compare.csv");
-        }
-
-        static void BaseCompareAlgorithms(string outputPath, string datasetName = "")
+        static void BaseCompareAlgorithms(string datasetName, string outputPath = "")
         {
             RegisterDatasets();
 
@@ -155,7 +83,7 @@ namespace OptimizationTechniques
 
         static void ShowSyntax()
         {
-            Console.WriteLine("AlgorithmsOptimization ReportPath [DatasetName]");
+            Console.WriteLine("OptimizationTechniques ProcessDataset [DatasetName] [ReportPath]");
         }
 
         static void Main(string[] args)
@@ -166,10 +94,10 @@ namespace OptimizationTechniques
                 return;
             }
 
-            var reportPath = args[0];
-            var dataSetName = args.Length == 1 ? string.Empty : args[1];
+            var dataSetName = args[1];
+            var reportPath = args.Length < 3  ? string.Empty : args[2];
 
-            BaseCompareAlgorithms(reportPath, dataSetName);
+            BaseCompareAlgorithms(dataSetName, reportPath);
 
             Console.ReadLine();
         }

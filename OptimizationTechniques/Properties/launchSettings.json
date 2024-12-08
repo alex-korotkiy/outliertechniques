@@ -2,7 +2,7 @@
   "profiles": {
     "OptimizationTechniques": {
       "commandName": "Project",
-      "commandLineArgs": "\"\" ForestCover"
+      "commandLineArgs": "ProcessDataset ForestCover"
     }
   }
 }

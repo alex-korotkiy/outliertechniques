@@ -19,6 +19,6 @@ namespace OptimizationTechniques.Measurements
         public const string AvgSuffix = "_Avg";
         public const string SigmaSuffix = "_Sigma";
 
-        public const string RunTimePercentAvgRatio = "RunTimePercentAvgRatio";
+        public const string RunTimePercentAvgRatioSuffix = "_RunTimePercentAvgRatio";
     }
 }

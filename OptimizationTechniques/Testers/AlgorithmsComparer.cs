@@ -25,50 +25,9 @@ namespace OptimizationTechniques.Testers
             return result;
         }
 
-        /*
-        public static void CalculateDerivativeMetrics(Dictionary<string, List<double>> metrics)
-        {
-            var basePrefix = GetAlgorithmPrefix<BaseAlgorithm>();
-
-            var keys = metrics.Keys.ToArray();
-            foreach (var key in keys)
-            {
-                int index = 0;
-
-                index = key.IndexOf(Metrics.RunTime);
-                if (index > 0)
-                {
-                    var algorithmPrefix = key.Substring(0, index);
-                    if (metrics.ContainsKey(basePrefix + Metrics.RunTime))
-                        metrics[algorithmPrefix + Metrics.RunTimePercent] = ApplyFormula(metrics[key], metrics[basePrefix + Metrics.RunTime], (x, y) => x * 100 / y);
-                }
-
-                index = key.IndexOf(Metrics.DistanceCalculationsCount);
-                if (index > 0)
-                {
-                    var algorithmPrefix = key.Substring(0, index);
-                    if (metrics.ContainsKey(basePrefix + Metrics.DistanceCalculationsCount))
-                        metrics[algorithmPrefix + Metrics.DistanceCalculationsPercent] = ApplyFormula(metrics[key], metrics[basePrefix + Metrics.DistanceCalculationsCount], (x, y) => x * 100 / y);
-                }
-            }
-
-        }
-        */
-
-        public static string GetAlgorithmPrefix<T>()
-        {
-            var suffix = "_";
-            var typeName = typeof(T).Name;
-            var index = typeName.IndexOf("Optimized");
-            if (index > 0) return typeName.Substring(0, index) + suffix;
-            index = typeName.IndexOf("Algorithm");
-            if (index > 0) return typeName.Substring(0, index) + suffix;
-            return typeName + suffix;
-        }
-
         public static void MergeWithPrefix<T>(string prefix, Dictionary<string, T> sourceDictionary, IEnumerable<string> sourceKeySet, Dictionary<string, T> destinationDictionary)
         {
-            
+
             foreach (var key in sourceKeySet)
             {
                 if (!sourceDictionary.ContainsKey(key)) continue;
@@ -96,36 +55,51 @@ namespace OptimizationTechniques.Testers
             return result;
         }
 
+        public static string GetAlgorithmPrefix(Type type)
+        {
+            var suffix = "_";
+            var typeName = type.Name;
+            var index = typeName.IndexOf("Optimized");
+            if (index > 0) return typeName.Substring(0, index) + suffix;
+            index = typeName.IndexOf("Algorithm");
+            if (index > 0) return typeName.Substring(0, index) + suffix;
+            return typeName + suffix;
+        }
+
         public Dictionary<string, List<double>> CompareOnParams(AlgorithmParams algorithmParams, TestParams testParams)
         {
+
             var result = new Dictionary<string, List<double>>();
 
-            var baseTester = new AlgorithmTester<BaseAlgorithm>();
-            var baseResult = baseTester.Test(algorithmParams, testParams);
+            var testers = new IAlgorithmTester[]
+            {
+                new AlgorithmTester<BaseAlgorithm>(),
+                new AlgorithmTester<TIOptimizedAlgorithm>(),
+                new AlgorithmTester<COROptimizedAlgorithm>(),
+                new AlgorithmTester<DPOptimizedAlgorithm>(),
+                new AlgorithmTester<TICOROptimizedAlgorithm>(),
+                new AlgorithmTester<TICORDPOptimizedAlgorithm>()
+            };
 
-            var tiTester = new AlgorithmTester<TIOptimizedAlgorithm>();
-            var tiResult = tiTester.Test(algorithmParams, testParams);
+            var metricResultsArray = testers.Select(t => new Dictionary<string, List<double>>()).ToArray();
 
-            var corTester = new AlgorithmTester<COROptimizedAlgorithm>();
-            var corResult = corTester.Test(algorithmParams, testParams);
+            for (var i = 0; i < testParams.Repeats; i++)
+            {
+                Console.WriteLine($"Running all algorithms with {algorithmParams.SamplesCount} sample(s), pass {i + 1} ...");
+                var testLoopParams = algorithmParams.Clone();
+                testLoopParams.SampleIndexes = BaseAlgorithm.GenerateSamples(testLoopParams.SamplesCount, testLoopParams.X.Length);
+                for(var j = 0; j < testers.Length; j++)
+                {
+                    testers[j].Test(testLoopParams, metricResultsArray[j]);
+                }
+                Console.WriteLine($"Algorithms with {algorithmParams.SamplesCount} sample(s), pass {i + 1} finished");
+            }
 
-            var ticorTester = new AlgorithmTester<TICOROptimizedAlgorithm>();
-            var ticorResult = ticorTester.Test(algorithmParams, testParams);
-
-            var dpTester = new AlgorithmTester<DPOptimizedAlgorithm>();
-            var dpResult = dpTester.Test(algorithmParams, testParams);
-
-            var ticordpTester = new AlgorithmTester<TICORDPOptimizedAlgorithm>();
-            var ticordpResult = ticordpTester.Test(algorithmParams, testParams);
-
-            MergeWithPrefix(GetAlgorithmPrefix<BaseAlgorithm>(), baseResult, baseResult.Keys, result);
-            MergeWithPrefix(GetAlgorithmPrefix<TIOptimizedAlgorithm>(), tiResult, tiResult.Keys, result);
-            MergeWithPrefix(GetAlgorithmPrefix<COROptimizedAlgorithm>(), corResult, corResult.Keys, result);
-            MergeWithPrefix(GetAlgorithmPrefix<TICOROptimizedAlgorithm>(), ticorResult, ticorResult.Keys, result);
-            MergeWithPrefix(GetAlgorithmPrefix<DPOptimizedAlgorithm>(), dpResult, dpResult.Keys, result);
-            MergeWithPrefix(GetAlgorithmPrefix<TICORDPOptimizedAlgorithm>(), ticordpResult, ticordpResult.Keys, result);
-
-            //CalculateDerivativeMetrics(result);
+            for(var i = 0; i < testers.Length; i++)
+            {
+                var prefix = GetAlgorithmPrefix(testers[i].ParameterType());
+                MergeWithPrefix(prefix, metricResultsArray[i], metricResultsArray[i].Keys, result);
+            }
 
             return result;
         }
@@ -137,7 +111,7 @@ namespace OptimizationTechniques.Testers
 
             var keys = result.Keys.ToArray();
             var suffix = Metrics.RunTime + Metrics.AvgSuffix;
-            var basePrefix = GetAlgorithmPrefix<BaseAlgorithm>();
+            var basePrefix = GetAlgorithmPrefix(typeof(BaseAlgorithm));
 
             foreach (var key in keys)
             {
@@ -146,7 +120,7 @@ namespace OptimizationTechniques.Testers
                 var prefix = key.Substring(0, index);
                 var baseKey = basePrefix + suffix;
                 if (key != baseKey && result.ContainsKey(baseKey))
-                    result[prefix + Metrics.RunTimePercentAvgRatio] = result[key] * 100 / result[baseKey];
+                    result[prefix + Metrics.RunTimePercentAvgRatioSuffix] = result[key] * 100 / result[baseKey];
 
             }
 
@@ -158,12 +132,13 @@ namespace OptimizationTechniques.Testers
             var dicts = new List<Dictionary<string, double>>();
             for (var i = 0; i < Math.Min(samplesCounts.Length, repeats.Length); i++)
             {
+                Console.WriteLine($"Starting tests with {samplesCounts[i]} sample(s) ...");
                 var algorithmParams = baseAlgorithmParams.Clone();
                 algorithmParams.SamplesCount = samplesCounts[i];
-                algorithmParams.SampleIndexes = BaseAlgorithm.GenerateSamples(algorithmParams.SamplesCount, algorithmParams.X.Length);
                 var testParams = new TestParams() { Repeats = repeats[i] };
                 var rowResult = CompareOnParamsRow(algorithmParams, testParams);
                 dicts.Add(rowResult);
+                Console.WriteLine($"Tests with {samplesCounts[i]} sample(s) finished");
             }
 
             var columnNames = dicts[0].Keys;
