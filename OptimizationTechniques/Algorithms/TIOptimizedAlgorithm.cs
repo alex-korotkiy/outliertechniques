@@ -31,6 +31,9 @@ namespace OptimizationTechniques.Algorithms
                 if (sDistance > minDistance * 2) continue;
 
                 var newDistance = Distance.Distance(point, X[SampleIndexes[i]]);
+#if METRICS
+                _distanceCalculations++;
+#endif
                 if (newDistance < minDistance)
                 {
                     minIndex = i;

@@ -22,7 +22,9 @@ namespace OptimizationTechniques.Algorithms
             var point = X[pointIndex];
             var minIndex = 0;
             var minDistance = Distance.Distance(point, X[SampleIndexes[0]]);
-
+#if METRICS
+            _distanceCalculations++;
+#endif
             var candidatesMin = candidates.Min;
             if (candidatesMin != null && minDistance < candidatesMin.Item1) return;
 

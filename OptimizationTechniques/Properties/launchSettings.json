@@ -2,7 +2,7 @@
   "profiles": {
     "OptimizationTechniques": {
       "commandName": "Project",
-      "commandLineArgs": "ProcessDataset Shuttle"
+      "commandLineArgs": "ProcessDataset Synthetic"
     }
   }
 }
