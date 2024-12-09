@@ -120,7 +120,7 @@ namespace OptimizationTechniques.Testers
                 var prefix = key.Substring(0, index);
                 var baseKey = basePrefix + suffix;
                 if (key != baseKey && result.ContainsKey(baseKey))
-                    result[prefix + Metrics.RunTimePercentAvgRatioSuffix] = result[key] * 100 / result[baseKey];
+                    result[prefix + Metrics.RunTimePercent] = result[key] * 100 / result[baseKey];
 
             }
 
