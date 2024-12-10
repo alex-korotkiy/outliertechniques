@@ -88,7 +88,7 @@ namespace OptimizationTechniques
 
         static void Main(string[] args)
         {
-            if (args.Length < 1)
+            if (args.Length < 1 || args[0].ToLower().Trim() != "processdataset")
             {
                 ShowSyntax();
                 return;
