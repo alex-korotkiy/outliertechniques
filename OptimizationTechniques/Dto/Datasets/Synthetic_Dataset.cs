@@ -17,7 +17,8 @@ namespace OptimizationTechniques.Dto.Datasets
 
         public override string Name => "Synthetic";
 
-        public override double OutliersCount => 100000;
+        protected int DataPointsCount = 100000;
+        public override double OutliersCount => 1000;
 
         public override double[][] GetX()
         {
@@ -27,7 +28,7 @@ namespace OptimizationTechniques.Dto.Datasets
             var devsStdev = centersStdev * 0.1;
 
             var centers = new double[centersCount][];
-            var result = new double[(int)OutliersCount][];
+            var result = new double[DataPointsCount][];
 
             var devs = NormalDistribution.Random(0, devsStdev, centersCount).Select(Math.Abs).ToArray();
 
@@ -36,7 +37,7 @@ namespace OptimizationTechniques.Dto.Datasets
                 centers[i] = NormalDistribution.Random(0, centersStdev, dimension);
             }
 
-            for (var i = 0; i < OutliersCount; i++)
+            for (var i = 0; i < DataPointsCount; i++)
             {
                 var centerNumber = UniformDiscreteDistribution.Random(0, centersCount);
                 var nVector = NormalDistribution.Random(0, devs[centerNumber], dimension);

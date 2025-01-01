@@ -28,7 +28,7 @@ namespace OptimizationTechniques.Dto.Datasets
         {
             get
             {
-                return 2644;
+                return 1364;
             }
         }
 
