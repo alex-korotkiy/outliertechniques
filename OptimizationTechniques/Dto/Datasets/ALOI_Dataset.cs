@@ -13,7 +13,7 @@ namespace OptimizationTechniques.Dto.Datasets
         public ALOI_Dataset()
         {
             inputFileName = "ALOI_norm.csv";
-            outputFileName = "ALOI.csv";
+            baseOutputFileName = "ALOI";
         }
 
         public override string Name

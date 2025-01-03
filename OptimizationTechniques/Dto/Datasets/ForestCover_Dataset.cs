@@ -14,7 +14,7 @@ namespace OptimizationTechniques.Dto.Datasets
         public ForestCover_Dataset()
         {
             inputFileName = "covtype_normalized.csv";
-            outputFileName = "covtype.csv";
+            baseOutputFileName = "covtype";
         }
 
         protected override DataFrame ReadFile()

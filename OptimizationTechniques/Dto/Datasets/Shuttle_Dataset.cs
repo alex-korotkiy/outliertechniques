@@ -13,7 +13,7 @@ namespace OptimizationTechniques.Dto.Datasets
         public Shuttle_Dataset()
         {
             inputFileName = "Shuttle_normalized.csv";
-            outputFileName = "Shuttle.csv";
+            baseOutputFileName = "Shuttle";
         }
 
         public override string Name

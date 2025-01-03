@@ -7,11 +7,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accord.Math.Distances;
 
 namespace OptimizationTechniques.Testers
 {
     public class AlgorithmTester<T> : IAlgorithmTester where T: IBaseAlgorithm, new() 
     {
+
+        public virtual bool SupportedParams(AlgorithmParams algorithmParams)
+        {
+            var algorithmType = ParameterType();
+            if (algorithmType == typeof(DPOptimizedAlgorithm) || algorithmType == typeof(TICORDPOptimizedAlgorithm))
+                return algorithmParams.Distance.GetType() == typeof(Euclidean);
+
+            return true;
+        }
+
         public void MergeMetricsFromRun(Dictionary<string, List<double>> totalMetrics, Dictionary<string, double> metrics)
         {
             foreach (var key in metrics.Keys)
@@ -28,9 +39,11 @@ namespace OptimizationTechniques.Testers
 
         public virtual void Test(AlgorithmParams algorithmParams, Dictionary<string, List<double>> metricsResult)
         {
-            var algorithmName = typeof(T).Name; 
+            if (!SupportedParams(algorithmParams)) return;
+
+            var algorithmName = typeof(T).Name;
     
-            Console.WriteLine($"Testing algorithm: {algorithmName}, # of samples: {algorithmParams.SamplesCount}");
+            Console.WriteLine($"Testing algorithm: {algorithmName}, distance: {algorithmParams.Distance.GetType().Name}, # of samples: {algorithmParams.SamplesCount}");
                 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -44,7 +57,6 @@ namespace OptimizationTechniques.Testers
             metrics[Metrics.RunTime] = ticks * 1.0 / Stopwatch.Frequency;
 
             MergeMetricsFromRun(metricsResult, metrics);
-
         }
     }
 }

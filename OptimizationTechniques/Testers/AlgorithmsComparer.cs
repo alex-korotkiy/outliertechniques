@@ -79,7 +79,8 @@ namespace OptimizationTechniques.Testers
                 new AlgorithmTester<DPOptimizedAlgorithm>(),
                 new AlgorithmTester<TICOROptimizedAlgorithm>(),
                 new AlgorithmTester<TICORDPOptimizedAlgorithm>()
-            };
+            }
+            .Where(t => t.SupportedParams(algorithmParams)).ToArray();
 
             var metricResultsArray = testers.Select(t => new Dictionary<string, List<double>>()).ToArray();
 
@@ -163,7 +164,6 @@ namespace OptimizationTechniques.Testers
             var pmValue = sigmaValue * sigmaFactor;
             return avgValue.ToString() + "±" + pmValue.ToString();
         }
-
 
     }
 }

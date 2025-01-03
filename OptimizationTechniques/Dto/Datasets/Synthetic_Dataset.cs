@@ -12,7 +12,7 @@ namespace OptimizationTechniques.Dto.Datasets
 
         public Synthetic_Dataset()
         {
-            outputFileName = "Synthetic.csv";
+            baseOutputFileName = "Synthetic";
         }
 
         public override string Name => "Synthetic";

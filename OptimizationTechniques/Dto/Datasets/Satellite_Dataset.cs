@@ -13,7 +13,7 @@ namespace OptimizationTechniques.Dto.Datasets
         public Satellite_Dataset()
         {
             inputFileName = "sat_normalized.csv";
-            outputFileName = "sat.csv";
+            baseOutputFileName = "sat";
         }
 
         public override string Name

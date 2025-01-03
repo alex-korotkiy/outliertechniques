@@ -10,6 +10,7 @@ namespace OptimizationTechniques.Testers
 {
     interface IAlgorithmTester
     {
+        public bool SupportedParams(AlgorithmParams algorithmParams);
         public Type ParameterType();
         public void Test(AlgorithmParams algorithmParams, Dictionary<string, List<double>> metricsResult);
     }

@@ -10,7 +10,7 @@ namespace OptimizationTechniques.Dto.Datasets
     public abstract class BaseDataset
     {
         protected string inputFileName;
-        protected string outputFileName;
+        protected string baseOutputFileName;
 
         public abstract string Name { get; }
         public abstract double OutliersCount { get; }
@@ -21,11 +21,11 @@ namespace OptimizationTechniques.Dto.Datasets
             return DataFrame.LoadCsv("Data\\" + inputFileName, ',', false);
         }
 
-        public virtual string OutputFileName
+        public virtual string BaseOutputFileName
         {
             get
             {
-                return outputFileName;
+                return baseOutputFileName;
             }
         }
     }
