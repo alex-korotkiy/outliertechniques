@@ -43,7 +43,7 @@ namespace OptimizationTechniques.Testers
 
             var algorithmName = typeof(T).Name;
     
-            Console.WriteLine($"Testing algorithm: {algorithmName}, distance: {algorithmParams.Distance.GetType().Name}, # of samples: {algorithmParams.SamplesCount}");
+            Console.WriteLine($"Testing algorithm: {algorithmName}, # of samples: {algorithmParams.SamplesCount}, distance: {algorithmParams.Distance.GetType().Name} ...");
                 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -57,6 +57,8 @@ namespace OptimizationTechniques.Testers
             metrics[Metrics.RunTime] = ticks * 1.0 / Stopwatch.Frequency;
 
             MergeMetricsFromRun(metricsResult, metrics);
+
+            Console.WriteLine($"Testing algorithm: {algorithmName}, # of samples: {algorithmParams.SamplesCount}, distance: {algorithmParams.Distance.GetType().Name} - finished");
         }
     }
 }

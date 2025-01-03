@@ -86,14 +86,14 @@ namespace OptimizationTechniques.Testers
 
             for (var i = 0; i < testParams.Repeats; i++)
             {
-                Console.WriteLine($"Running all algorithms with {algorithmParams.SamplesCount} sample(s), pass {i + 1} ...");
+                Console.WriteLine($"Running all possible algorithms with {algorithmParams.SamplesCount} sample(s), {algorithmParams.Distance.GetType().Name} distance, pass {i + 1} ...");
                 var testLoopParams = algorithmParams.Clone();
                 testLoopParams.SampleIndexes = BaseAlgorithm.GenerateSamples(testLoopParams.SamplesCount, testLoopParams.X.Length);
                 for(var j = 0; j < testers.Length; j++)
                 {
                     testers[j].Test(testLoopParams, metricResultsArray[j]);
                 }
-                Console.WriteLine($"Algorithms with {algorithmParams.SamplesCount} sample(s), pass {i + 1} finished");
+                Console.WriteLine($"Algorithms with {algorithmParams.SamplesCount} sample(s), {algorithmParams.Distance.GetType().Name} distance, pass {i + 1} - finished");
             }
 
             for(var i = 0; i < testers.Length; i++)
