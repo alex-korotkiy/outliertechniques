@@ -54,7 +54,7 @@ namespace OptimizationTechniques.Testers
 
             var ticks = stopwatch.Elapsed.Ticks;
             var metrics = algorithm.GetMetrics();
-            metrics[Metrics.RunTime] = ticks * 1.0 / Stopwatch.Frequency;
+            metrics[Metrics.RunTime] = ticks * 1000.0 / Stopwatch.Frequency;
 
             MergeMetricsFromRun(metricsResult, metrics);
 

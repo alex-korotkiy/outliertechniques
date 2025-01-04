@@ -61,7 +61,7 @@ namespace OptimizationTechniques
             };
 
             var sampleCounts = new int[] { 10, 15, 20, 30, 50, 70, 100, 150, 200, 300, 500, 700, 1000 };
-            var repeats = new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
+            var repeats = new int[] { 100, 100, 100, 100, 20, 20, 20, 20, 10, 10, 10, 10, 10 };
 
             var comparer = new AlgorithmsComparer();
 
