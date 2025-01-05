@@ -1,5 +1,6 @@
 ﻿using OptimizationTechniques.Dto;
 using OptimizationTechniques.Extensions;
+using OptimizationTechniques.Measurements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,14 @@ namespace OptimizationTechniques.Algorithms
             }
 
             AddToOutlierCandidatesIfNeeded(candidates, minDistanceFunctionValue, pointIndex);
+        }
+
+        public override Dictionary<string, double> GetMetrics()
+        {
+#if METRICS
+            metrics[Metrics.DistanceCalculationsCount] = _samplesCount * (_samplesCount - 1) / 2 + _distanceCalculations;
+#endif
+            return metrics;
         }
 
     }

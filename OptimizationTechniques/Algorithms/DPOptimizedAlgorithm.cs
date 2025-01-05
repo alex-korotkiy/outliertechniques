@@ -32,9 +32,6 @@ namespace OptimizationTechniques.Algorithms
             {
                 var sample = X[SampleIndexes[i]];
                 _sampleDValues[i] = MathFunctions.Dot(sample, sample) / 2;
-#if METRICS
-                _distanceCalculations++;
-#endif
             }
 
             _sampleDistances = new double[_samplesCount, _samplesCount];
@@ -43,9 +40,6 @@ namespace OptimizationTechniques.Algorithms
                 for (var j = i + 1; j < _samplesCount; j++)
                 {
                     _sampleDistances[i, j] = _sampleDValues[i] + _sampleDValues[j] - MathFunctions.Dot(X[SampleIndexes[i]], X[SampleIndexes[j]]);
-#if METRICS
-                    _distanceCalculations++;
-#endif
                 }
             }
         }
@@ -55,31 +49,22 @@ namespace OptimizationTechniques.Algorithms
             var point = X[pointIndex];
             var sample = X[SampleIndexes[0]]; 
             var minValue = _sampleDValues[0] - MathFunctions.Dot(point, sample);
-#if METRICS
-            _distanceCalculations++;
-#endif
 
             for (var i = 1; i < _samplesCount; i++)
             {
                 sample = X[SampleIndexes[i]];
                 var newValue = _sampleDValues[i] - MathFunctions.Dot(point, sample);
-#if METRICS
-                _distanceCalculations++;
-#endif
                 if (newValue < minValue) minValue = newValue;
             }
 
             minValue = minValue + MathFunctions.Dot(point, point) / 2;
-#if METRICS
-            _distanceCalculations++;
-#endif
             AddToOutlierCandidatesIfNeeded(candidates, minValue, pointIndex);
         }
 
         public override Dictionary<string, double> GetMetrics()
         {
 #if METRICS
-            metrics[Metrics.DistanceCalculationsCount] = _distanceCalculations;
+            metrics[Metrics.DistanceCalculationsCount] = (2 * X.Length - SamplesCount - 1) * SamplesCount / 2 + X.Length;
 #endif
             return metrics;
         }
