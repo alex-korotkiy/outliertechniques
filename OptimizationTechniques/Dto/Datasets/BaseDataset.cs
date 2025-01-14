@@ -1,7 +1,9 @@
 ﻿using Microsoft.Data.Analysis;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +20,9 @@ namespace OptimizationTechniques.Dto.Datasets
 
         protected virtual DataFrame ReadFile()
         {
-            return DataFrame.LoadCsv("Data\\" + inputFileName, ',', false);
+            var programPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var dataPath = Path.Combine(programPath, "Data", inputFileName);
+            return DataFrame.LoadCsv(dataPath, ',', false);
         }
 
         public virtual string BaseOutputFileName
