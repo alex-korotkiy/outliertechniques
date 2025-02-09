@@ -17,10 +17,6 @@ namespace OptimizationTechniques.Dto.Datasets
             baseOutputFileName = "covtype";
         }
 
-        protected override DataFrame ReadFile()
-        {
-            return DataFrame.LoadCsv("Data\\" + inputFileName, ',', true);
-        }
 
         public override string Name
         {

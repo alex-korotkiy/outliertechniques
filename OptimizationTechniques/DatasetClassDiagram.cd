@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OptimizationTechniques.Dto.Datasets.BaseDataset">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAQQAAAAAAAAQAAAAAAEAAQAgAAAAAAAA=</HashCode>
+      <FileName>Dto\Datasets\BaseDataset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptimizationTechniques.Dto.Datasets.ALOI_Dataset">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAEAAQAAAAAAAAAA=</HashCode>
+      <FileName>Dto\Datasets\ALOI_Dataset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptimizationTechniques.Dto.Datasets.ForestCover_Dataset">
+    <Position X="5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAEAAQAAAAAAAAAA=</HashCode>
+      <FileName>Dto\Datasets\ForestCover_Dataset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptimizationTechniques.Dto.Datasets.Satellite_Dataset">
+    <Position X="0.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAEAAQAAAAAAAAAA=</HashCode>
+      <FileName>Dto\Datasets\Satellite_Dataset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptimizationTechniques.Dto.Datasets.Shuttle_Dataset">
+    <Position X="3.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAEAAQAAAAAAAAAA=</HashCode>
+      <FileName>Dto\Datasets\Shuttle_Dataset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OptimizationTechniques.Dto.Datasets.Synthetic_Dataset">
+    <Position X="5.25" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAQAAAAAAEAAQAAAAAAAAAA=</HashCode>
+      <FileName>Dto\Datasets\Synthetic_Dataset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
